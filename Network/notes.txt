@@ -70,3 +70,6 @@ routeur kill tout ce qui ne passe pas par le vpm AVEC CERTIFICAT TTLS
 
 
 RH ont acces RDP vers modelis 
+
+
+
