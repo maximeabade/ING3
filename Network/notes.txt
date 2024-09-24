@@ -2,8 +2,71 @@ Certifs:
     ISO27001 Lead Implementer
     ISO27005 Risk Manager
 
+M. Méca est le PDG, sa femme est DRH/DAF, leur fille est la directrice de l’usine de production.
+Mme Lancienne est à la fois secrétaire, standardiste, comptable et contrôleuse de gestion.
+Le reste du personnel administratif compte environ 25 personnes, répartis en service commercial, marketing, achat.
 
-Protéger un systeme : 
-    1. Faire l'inventaire des actifs
+Le service R&D compte 10 personnes, en interne, et travaille en étroite collaboration avec un sous-traitant historique SARL Modelis2000.
 
 
+
+
+Serveurs :
+2 serveurs physiques : 1 AD + 1 AD 2ndaire.
+1 serveur physique hébergeant un logiciel ERP/CRM et la compta.
+1 serveur hébergeant les fichiers volumineux de la R&D.
+
+Les serveurs DOIVENT ETRE dans des salles securisees 
+
+
+
+Réseau : 
+Routeur/Firewall : HP Routeur MSR20-40
+4 switchs manageables : Netgear 48 ports
+LAN 192.168.0.0/16
+IP publiques : 193.68.98.0/29
++ quelques imprimantes/scanners, machine à affranchir, …
+
+
+
+Tableau des réseaux
+1 public : 193.68.98.0 /29
+1 privé et UN SEUL PRIVé POUR TOUTE LA PUTAIN DE BOITE => resultat tout le monde a modelis 2000
+Scada sur un rezo a part
+
+
+Localisation du matériel
+
+
+
+
+AUDIT
+MESURES A METTRE EN PLACE :
+- Review des politiques de mdp
+- Mise en place de la double authentification
+- AD: fermeture du port 3389* (RDP) et mise en place de VPN -tunneling-
+- Séparation du réseau en plsrs sous reseau, un par service
+    -------- RH acces au erp 
+    -------- R&D acces au modelis 2000
+- 2 switch en utile; 2 swith en redondance
+- Mise en place de la DMZ   (zone démilitarisée)
+- Installation Pare-feu
+
+PAS DE DISQUE DE DUR en dehors de la boite, il n a pas a sortir avec;la donnee, reste des 3-2-1 
+    ----------------- 3 copies de la data, 2 endroits differents (local + modelis)
+
+Achat d un nouveau disque dur pour les sauvegardes avec assez d espace
+OUUUUUUU
+Achat d un NAS pour les sauvegardes avec assez d espace
+
+
+
+pas de copie en localsur les machines des commerciaux; on a le vpn ! 
+
+routeur kill tout ce qui ne passe pas par le vpm AVEC CERTIFICAT TTLS
+
+1 (sous)réseau par service 
+    --------- degager le /16 pour un /24 et pour limiter le nombre de connexions
+
+
+RH ont acces RDP vers modelis 
