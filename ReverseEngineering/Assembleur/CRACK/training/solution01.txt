@@ -1,0 +1,3 @@
+solution est 'secret' et se trouve a l adresse 0x0000000000402000
+lorsqu on fait un break sur la fonction _start apres avoir fait info functions,
+et qu on fait info variables

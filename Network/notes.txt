@@ -1,0 +1,9 @@
+Certifs:
+    ISO27001 Lead Implementer
+    ISO27005 Risk Manager
+
+
+Protéger un systeme : 
+    1. Faire l'inventaire des actifs
+
+
