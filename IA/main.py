@@ -9,8 +9,8 @@ from sklearn.linear_model import Lasso
 from sklearn.metrics import accuracy_score, mean_squared_error
 from xgboost import XGBClassifier
 import shap
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Dense #type: ignore
 import tensorflow as tf
 from scipy.stats import uniform
 
