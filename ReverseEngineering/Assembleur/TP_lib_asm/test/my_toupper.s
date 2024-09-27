@@ -1,10 +1,11 @@
 global my_toupper  
 
 my_toupper:
-    movzx eax, byte dil
+    push rdi
+    pop rax
     
     ; Verify that we are between 'a' and 'z'
-    cmp al,'a'
+    cmp al, 'a'
     jb done
     cmp al,'z'
     ja done

@@ -12,20 +12,18 @@ funcs = {
         "isalpha": (11, 19), # XXX 15 OK
         "puts": (39, 78), # XXX OK
         "read": (23, 33.0), # XXX OK
-        #"strcat": (18, 34), # XXX 40 OK
-        #"strcmp": (17, 31), # XXX 24 OK
-        #"toupper": (12, 20), # XXX 13 NO DEMO
-
-        #"memset": (9, 18), # XXX 19 OK
-        # "isalpha": (11, 22), # XXX 15 OK
-        # "puts": (39, 78), # XXX OK
-        # "read": (23, 33.0), # XXX OK
-
+        "strcat": (18, 34), # XXX 40 OK
+        "strcmp": (17, 31), # XXX 24 OK
+        "toupper": (12, 20), # XXX 13 NO DEMO
+        "memset": (9, 18), # XXX 19 OK
+         "isalpha": (11, 22), # XXX 15 OK
+         "puts": (39, 78), # XXX OK
+         "read": (23, 33.0), # XXX OK
         # "strlen": (14, 20), # 14 NO
         # "atoi": (47, 90), # badly defined (handle newlines? handle '+' chr ?, ...) NO
         # "abs": (8, 16), # 8 NO
         # "strchr": (19, 35), # XXX 21 NO
-        #"strrchr": (20, 38), # XXX 29 OK
+        "strrchr": (20, 38), # XXX 29 OK
 
         }
 

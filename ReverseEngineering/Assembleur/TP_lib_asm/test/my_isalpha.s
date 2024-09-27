@@ -1,12 +1,10 @@
 global my_isalpha  
 
 my_isalpha:
-    or     edi, 0x20
-    sub    edi, 'a' 
-    cmp    edi, 'z'-'a'
-    ja .non_alpha
-    ret
-
-.non_alpha:
-    xor eax, eax
+    push rdi
+    pop rax
+    and al, ~32
+    sub al, 'A'
+    cmp al, 26
+    sbb al, al
     ret

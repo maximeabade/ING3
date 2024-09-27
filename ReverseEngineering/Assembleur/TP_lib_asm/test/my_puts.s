@@ -1,7 +1,7 @@
 global my_puts
 
 section .data
-   line_ret  db 0xA, 1
+   line_ret  db 0x0A, 1
 
 section .text
 my_puts:
@@ -14,19 +14,28 @@ my_puts:
 	jmp .loop  
 
 .next:
-    mov rax, 1 ; Syscall number 
-    mov rsi, rdi ; String Buffer
-    mov rdi, 1 ; To stdout
+    push 1
+    pop rax
+    push rdi
+    pop rsi
+    push 1
+    pop rdi
     syscall
-    cmp rax, 0
-    jne .bad
 
-    mov rax, 1 ; Syscall number 
-    mov rsi, line_ret
-    mov rdx, 1
+    test rax, rax
+    js .bad
+
+    push 1
+    pop rax
+    push line_ret
+    pop rsi
+    push 1
+    pop rdx
     syscall
+
     ret
 
 .bad
-    mov eax, 0xfffffff7
+    push -1
+    pop rax
     ret

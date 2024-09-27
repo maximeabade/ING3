@@ -1,14 +1,18 @@
 global my_read
+extern	__errno_location
 
 my_read:
     xor eax, eax ; Syscall number 
     syscall
     test eax, eax
-    js .bad
-    ret
+    jns .good
 .bad:
-    mov         r15, rax            ; save errno
-    call        ___error            ; retrieve address to errno
-    mov         [rax], r15          ; put errno in return value of __error (pointer to errno)
-    mov         rax, -1
+    neg eax
+    push rax
+    pop rdi
+    call __errno_location
+    mov [rax], edi
+    push -1
+    pop rax
+.good
     ret

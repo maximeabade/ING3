@@ -5,7 +5,8 @@ my_strrchr:
 .loop:
     cmp byte [rdi], sil
     jne .no_match
-    mov rax, rdi
+    push rdi
+    pop rax
 .no_match:
     cmp byte [rdi], 0x0
     je .end
