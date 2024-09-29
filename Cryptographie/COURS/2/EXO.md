@@ -35,3 +35,6 @@ Le résultat n'est pas unique, car on peut choisir une autre clé $k'$ telle que
    - 3. un Blueray (50 Go)
 
 **Réponse** : On a $t = \frac{N}{v}$, où $N$ est la taille de la clé et $v$ est la vitesse de transmission. On a donc $t = \frac{N}{v}$.
+Ainsi l'envoi d'un texte prendrait $t = \frac{N}{40}$, une communication audio prendrait $t = \frac{N}{64000}$ et une communication vidéo en haute résolution prendrait $t = \frac{N}{140000000}$.
+
+Pour un CD-R, on a $N = 700 \times 10^6$ bits, pour un DVD on a $N = 4.7 \times 10^9$ bits et pour un Blueray on a $N = 50 \times 10^9$ bits.
