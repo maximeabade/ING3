@@ -82,7 +82,7 @@ explainer = shap.Explainer(XGB_model, X_test[:100])  # Accélération en limitan
 shap_values = explainer(X_test[:100])
 
 shap.summary_plot(shap_values, X_test[:100])  # Plot d'importance des features
-
+print("SHAP summary plot affiché")
 # Modèle 3 : Réseau fully-connect (avec réduction du nombre d'époques)
 # Détection GPU pour accélérer le processus
 physical_devices = tf.config.list_physical_devices('GPU')
