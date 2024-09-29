@@ -38,3 +38,5 @@ Le résultat n'est pas unique, car on peut choisir une autre clé $k'$ telle que
 Ainsi l'envoi d'un texte prendrait $t = \frac{N}{40}$, une communication audio prendrait $t = \frac{N}{64000}$ et une communication vidéo en haute résolution prendrait $t = \frac{N}{140000000}$.
 
 Pour un CD-R, on a $N = 700 \times 10^6$ bits, pour un DVD on a $N = 4.7 \times 10^9$ bits et pour un Blueray on a $N = 50 \times 10^9$ bits.
+
+Pour un CD-R, l'envoi d'un texte prendrait $t = \frac{700 \times 10^6}{40} = 17500000$ secondes, une communication audio prendrait $t = \frac{700 \times 10^6}{64000} = 10937.5$ secondes et une communication vidéo en haute résolution prendrait $t = \frac{700 \times 10^6}{140000000} = 5$ secondes.
