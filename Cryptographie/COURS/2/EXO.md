@@ -39,4 +39,4 @@ Ainsi l'envoi d'un texte prendrait $t = \frac{N}{40}$, une communication audio p
 
 Pour un CD-R, on a $N = 700 \times 10^6 \times 8$ bits, pour un DVD on a $N = 4.7 \times 10^9 \times 8$ bits et pour un Blueray on a $N = 50 \times 10^9 \times 8$ bits.
 
-Pour un CD-R, l'envoi d'un texte prendrait $t = \frac{700 \times 10^6 \times 8}{40} = 140000000$ secondes, une communication audio prendrait $t = \frac{700 \times 10^6 \times 8}{64000} = 87500$ secondes et une communication vidéo en haute résolution prendrait $t = \frac{700 \times 10^6 \times 8}{140\time 10⁶} = 4$ secondes.
+Pour un CD-R, l'envoi d'un texte prendrait $t = \frac{700 \times 10^6 \times 8}{40} = 140000000$ secondes, une communication audio prendrait $t = \frac{700 \times 10^6 \times 8}{64000} = 87500$ secondes et une communication vidéo en haute résolution prendrait $t = \frac{700 \times 10^6 \times 8}{140 \times 10⁶} = 4$ secondes.
