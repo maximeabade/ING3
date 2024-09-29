@@ -1,9 +1,5 @@
 global my_puts
 
-section .data
-   line_ret  db 0x0A, 1
-
-section .text
 my_puts:
     xor edx, edx
 
@@ -22,20 +18,21 @@ my_puts:
     pop rdi
     syscall
 
-    test rax, rax
+    test eax, eax
     js .bad
 
     push 1
     pop rax
-    push line_ret
-    pop rsi
     push 1
     pop rdx
+    push 0x0A
+    push rsp
+    pop rsi
     syscall
-
+    pop rsi
     ret
 
-.bad
+.bad:
     push -1
     pop rax
     ret

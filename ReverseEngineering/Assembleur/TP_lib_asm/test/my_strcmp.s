@@ -4,10 +4,8 @@ my_strcmp:
 .loop:
     movzx   eax, byte [rdi]
     movzx   edx, byte [rsi]
-    cmp     al, dl
+    cmpsb
     jne     .end
-    inc     rdi
-    inc     rsi
     test    al, al
     jne     .loop
 .end:

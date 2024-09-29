@@ -2,15 +2,13 @@ global my_strcat
 
 my_strcat:
     push rdi
-.loop:
-    cmp byte [rdi], 0x0
-    je .concat
-    inc rdi
-    jmp .loop
+    xor eax, eax
+    repne scasb
+    dec rdi
 .concat:
     lodsb
     stosb
-    cmp al, 0x0
+    test al, al
     je .end
     jmp .concat
 .end :
