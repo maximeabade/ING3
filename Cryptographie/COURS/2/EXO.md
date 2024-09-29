@@ -1,6 +1,6 @@
 ## Retour sur le chiffrement de César
 
-*Démontrer que, si le message ne contien qu'une seule lettre, alors le chiffre de César vu dans le TD1 est parfaitement sécurisé.*
+*Démontrer que, si le message ne contient qu'une seule lettre, alors le chiffre de César vu dans le TD1 est parfaitement sécurisé.*
 
 **Réponse** : Si le message ne contient qu'une seule lettre, alors il n'y a qu'une seule possibilité pour le message clair. Il n'y a donc qu'une seule possibilité pour le message chiffré. Le chiffre de César est donc parfaitement sécurisé.
 
@@ -31,7 +31,7 @@ Le résultat n'est pas unique, car on peut choisir une autre clé $k'$ telle que
  
 *si ALice et Bob partagent une clé secrète k constituée d'une séquence binaire aléatoire préenregistrée sur :*
    - 1. un CD-R (700 Mo)
-   - b. un DVD (4.7 Go)
-   - c. un Blueray (50 Go)
+   - 2. un DVD (4.7 Go)
+   - 3. un Blueray (50 Go)
 
 **Réponse** : On a $t = \frac{N}{v}$, où $N$ est la taille de la clé et $v$ est la vitesse de transmission. On a donc $t = \frac{N}{v}$.
