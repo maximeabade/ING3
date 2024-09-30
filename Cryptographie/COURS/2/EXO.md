@@ -45,3 +45,27 @@ Pour un DVD, l'envoi d'un texte prendrait $t = \frac{4.7 \times 10^9 \times 8}{4
 
 Pour un Blueray, l'envoi d'un texte prendrait $t = \frac{50 \times 10^9 \times 8}{40} = 10000000000$ secondes, une communication audio prendrait $t = \frac{50 \times 10^9 \times 8}{64000} = 6250000$ secondes et une communication vidéo en haute résolution prendrait $t = \frac{50 \times 10^9 \times 8}{140 \times 10⁶} = 2857$ secondes.
 
+
+
+## One-Time Pad (suite)
+*En utilisant le chiffrement One-Time-Pad sur des messages de longueur l avec la clé k = 0l , nous avons c = Enc(k, m) = m; et le message est envoyé en clair ! On suggère donc de modifier le générateur de clés pour que celui-ci ne puisse pas retourner la clé nulle.*
+
+*Décrire la distribution KeyGen selon laquelle sont tirées les clés*
+
+**Réponse** : La distribution KeyGen pour la génération de clés d'un one-time pad (OTP) repose sur la création de clés totalement aléatoires. Chaque bit de la clé est tiré uniformément et indépendamment, avec une probabilité de 50 % d'être un 0 ou un 1. Cela signifie que chaque bit de la clé est choisi de manière aléatoire et imprévisible, garantissant ainsi que la clé n'a aucun biais ou motif identifiable.
+
+Pour que l'OTP soit parfaitement sécurisé, la clé générée doit être aussi longue que le message à chiffrer, et chaque clé ne doit être utilisée qu'une seule fois. De plus, la distribution de cette clé doit être effectuée de manière sécurisée et confidentielle entre les deux parties avant de pouvoir l'utiliser pour chiffrer ou déchiffrer un message.
+
+En résumé, la distribution KeyGen génère des clés en utilisant une source de véritable aléa, où chaque bit a une probabilité égale d'être un 0 ou un 1, garantissant ainsi une clé unique et imprévisible pour chaque message.
+
+*Est-ce vraiment une amélioration du One-Time-Pad? Notamment, le chiffrement est-il toujours parfaitement sécurisé? Justifier votre réponse.*
+
+**Réponse** : 
+La modification du générateur de clés pour qu'il ne puisse pas retourner la clé nulle n'améliore pas la sécurité du One-Time-Pad (OTP). En effet, le chiffrement OTP repose sur l'utilisation d'une clé aléatoire de la même longueur que le message à chiffrer. Si la clé est nulle, alors le message chiffré est identique au message en clair, ce qui compromet la sécurité du chiffrement.
+Cela dit, en bloquant la génération nulle, on s'assure de correctement chiffrer le message. Cependant, cela ne garantit pas que le chiffrement est parfaitement sécurisé. En effet, le chiffrement OTP est parfaitement sécurisé uniquement si la clé est aléatoire, unique, et utilisée une seule fois. Si la clé est déterministe ou réutilisée, alors le chiffrement n'est plus parfaitement sécurisé.
+
+
+## One-Time Pad (bonus)
+
+*L’inconvénient majeur du protocole OTP est la difficulté de générer une clé secrète k de taille suffisante et de la communiquer à Alice et à Bob. Alice, débutante en cryptographie, a l’idée suivante pour simplifier la procédure d’échange des clés : au lieu d’une clé aléatoire, elle souhaite utiliser un texte (que Bob possède également). En se mettant d’accord sur la page, ligne et colonne du début du texte à utiliser, elle va ajouter les caractères aux caractères d’un message m, modulo le nombre de caractères dans le texte (on retourne au début du livre lorsque l’on atteint la fin de celui-ci). Est-ce une bonne idée? Justifier votre réponse.*
+
