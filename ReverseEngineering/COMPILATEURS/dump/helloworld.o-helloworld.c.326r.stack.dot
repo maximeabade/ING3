@@ -1,0 +1,32 @@
+digraph "helloworld.o-helloworld.c.326r.stack" {
+overlap=false;
+subgraph "cluster_main" {
+	style="dashed";
+	color="black";
+	label="main ()";
+	fn_0_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_0_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\ \ \ \ 3:\ NOTE_INSN_BASIC_BLOCK\ 2\l\
+|\ \ \ 19:\ [--sp:DI]=bp:DI\l\
+|\ \ \ 20:\ bp:DI=sp:DI\l\
+|\ \ \ 21:\ NOTE_INSN_PROLOGUE_END\l\
+|\ \ \ \ 2:\ NOTE_INSN_FUNCTION_BEG\l\
+|\ \ \ \ 5:\ ax:DI=`*.LC0'\l\
+|\ \ \ \ 6:\ di:DI=ax:DI\l\
+\ \ \ \ \ \ REG_EQUAL\ `*.LC0'\l\
+|\ \ \ \ 7:\ ax:SI=call\ [`puts']\ argc:0\l\
+|\ \ \ \ 8:\ ax:SI=0\l\
+|\ \ \ 16:\ use\ ax:SI\l\
+|\ \ \ 22:\ NOTE_INSN_EPILOGUE_BEG\l\
+|\ \ \ 23:\ bp:DI=[sp:DI++]\l\
+\ \ \ \ \ \ REG_CFA_DEF_CFA\ sp:DI+0x8\l\
+|\ \ \ 24:\ simple_return\l\
+}"];
+
+	fn_0_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_0_basic_block_0:s -> fn_0_basic_block_2:n [style="solid,bold",color=black,weight=100,constraint=true];
+	fn_0_basic_block_2:s -> fn_0_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true,label="[100%]"];
+	fn_0_basic_block_0:s -> fn_0_basic_block_1:n [style="invis",constraint=true];
+}
+}

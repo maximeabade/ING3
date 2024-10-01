@@ -1,0 +1,16 @@
+int main ()
+{
+  int D.3177;
+  int _3;
+
+  <bb 2> :
+  __builtin_puts (&"Hello, World!"[0]);
+  _3 = 0;
+
+  <bb 3> :
+<L0>:
+  return _3;
+
+}
+
+

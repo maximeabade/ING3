@@ -1,0 +1,11 @@
+
+;; Function main (null)
+;; enabled by -tree-original
+
+
+{
+  printf ((const char * restrict) "Hello, World!\n");
+  return 0;
+}
+return 0;
+

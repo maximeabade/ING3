@@ -1,0 +1,27 @@
+digraph "helloworld.o-helloworld.c.257r.into_cfglayout" {
+overlap=false;
+subgraph "cluster_main" {
+	style="dashed";
+	color="black";
+	label="main ()";
+	fn_0_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_0_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_0_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{\ \ \ \ 3:\ NOTE_INSN_BASIC_BLOCK\ 2\l\
+|\ \ \ \ 2:\ NOTE_INSN_FUNCTION_BEG\l\
+|\ \ \ \ 5:\ r84:DI=`*.LC0'\l\
+|\ \ \ \ 6:\ di:DI=r84:DI\l\
+\ \ \ \ \ \ REG_EQUAL\ `*.LC0'\l\
+|\ \ \ \ 7:\ ax:SI=call\ [`puts']\ argc:0\l\
+|\ \ \ \ 8:\ r82:SI=0\l\
+|\ \ \ 11:\ r83:SI=r82:SI\l\
+|\ \ \ 15:\ ax:SI=r83:SI\l\
+|\ \ \ 16:\ use\ ax:SI\l\
+}"];
+
+	fn_0_basic_block_0:s -> fn_0_basic_block_2:n [style="solid,bold",color=black,weight=100,constraint=true];
+	fn_0_basic_block_2:s -> fn_0_basic_block_1:n [style="solid,bold",color=black,weight=100,constraint=true,label="[100%]"];
+	fn_0_basic_block_0:s -> fn_0_basic_block_1:n [style="invis",constraint=true];
+}
+}

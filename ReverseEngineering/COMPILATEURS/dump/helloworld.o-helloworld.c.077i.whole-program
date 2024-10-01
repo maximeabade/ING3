@@ -1,0 +1,49 @@
+
+Marking local functions:
+
+
+Marking externally visible functions: main/0
+
+
+Marking externally visible variables:
+
+
+Reclaiming functions:
+Reclaiming variables:
+Clearing address taken flags:
+Symbol table:
+
+puts/1 (__builtin_puts)
+  Type: function
+  Visibility: semantic_interposition external public
+  References: 
+  Referring: 
+  Availability: not_available
+  Function flags:
+  Called by: main/0 
+  Calls: 
+main/0 (main)
+  Type: function definition analyzed
+  Visibility: force_output externally_visible semantic_interposition no_reorder public
+  References: 
+  Referring: 
+  Availability: available
+  Function flags: body
+  Called by: 
+  Calls: puts/1 
+int main ()
+{
+  int D.3177;
+  int _3;
+
+  <bb 2> :
+  __builtin_puts (&"Hello, World!"[0]);
+  _3 = 0;
+
+  <bb 3> :
+<L0>:
+  return _3;
+
+}
+
+
