@@ -10,7 +10,5 @@ main.c -> préprocessing *gcc -E* -> main.i *code étendu*-> compilation *gcc -S
 
 
 ## Graphes de compilation - GCC's CFG
-```gcc -fdump-tree-all-graph helloworld.c -o helloworld.o``` 
-```gcc -fdump-ipa-all-graph helloworld.c -o helloworld.o``` 
-```gcc -fdump-rtl-all-graph helloworld.c -o helloworld.o``` 
+```gcc -fdump-tree-all-graph helloworld.c -o helloworld.o \n gcc -fdump-ipa-all-graph helloworld.c -o helloworld.o \n gcc -fdump-rtl-all-graph helloworld.c -o helloworld.o``` 
 
