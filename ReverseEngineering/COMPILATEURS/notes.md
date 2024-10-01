@@ -9,7 +9,7 @@
 main.c -> préprocessing *gcc -E* -> main.i *code étendu*-> compilation *gcc -S*-> main.s *code asm*-> assemblage *us, gcc -c*-> main.o *objet*-> linkage *ld , gcc*-> binaire ELF *./a.out*
 
 
-## Graphes de compilation - GCC's CFG
+## Graphes de compilation - GCC's CFG (Control Flow Graph)
 ```gcc -fdump-tree-all-graph helloworld.c -o helloworld.o ``` <br>
 ```gcc -fdump-ipa-all-graph helloworld.c -o helloworld.o  ``` <br>
 ``` gcc -fdump-rtl-all-graph helloworld.c -o helloworld.o ``` <br>
