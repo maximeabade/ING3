@@ -1,3 +1,4 @@
 on peut examiner la chaine ou ya un string compare dans la stack a l adresse 0x202f,
 pour le voir on tape x/s 0x202f (adresse du strcmp)
 
+mistigri

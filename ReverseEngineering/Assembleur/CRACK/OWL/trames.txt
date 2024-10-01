@@ -1,0 +1,88 @@
+
+
+
+
+
+  ;-- section..text:
+  ;-- segment.LOAD1:
+entry0();
+0x00401000      mov     ecx, 0xc390050f ; [00] -r-x section size 233 named .text
+0x00401005      mov     bx, word [rsp]
+0x00401009      shl     rbx, 0x12
+0x0040100d      mov     bh, byte [rsp]
+0x00401010      rol     ebx, 3
+0x00401013      mov     bl, 0x41   ; 'A' ; 65
+0x00401015      jmp     rbx
+0x00401017      add     byte [rax], al
+0x00401019      add     byte [rax], al
+0x0040101b      add     byte [rax], al
+0x0040101d      add     byte [rax], al
+0x0040101f      add     byte [rax], al
+0x00401021      add     byte [rax], al
+0x00401023      add     byte [rax], al
+0x00401025      add     byte [rax], al
+0x00401027      add     byte [rax], al
+0x00401029      add     byte [rax], al
+0x0040102b      add     byte [rax], al
+0x0040102d      add     byte [rax], al
+0x0040102f      add     byte [rax], al
+0x00401031      add     byte [rax], al
+0x00401033      add     byte [rax], al
+0x00401035      add     byte [rax], al
+0x00401037      add     byte [rax], al
+0x00401039      add     byte [rax], al
+0x0040103b      add     byte [rax], al
+0x0040103d      add     byte [rax], al
+0x0040103f      movabs  rbx, 0xb35c41585b415858
+0x00401049      xchg    eax, edi
+0x0040104a      jmp     rbx
+0x0040104c      movabs  rax, 0xbe4902ebc931c031
+0x00401056      movzx   edx, byte [r11 + rcx]
+0x0040105b      test    dl, dl
+0x0040105d      je      0x401065
+0x0040105f      add     eax, edx
+0x00401061      inc     ecx
+0x00401063      jmp     0x401056
+0x00401065      ret
+0x00401066      movabs  rax, 0x685e54000a4b4f68
+0x00401070      add     dword [rcx], eax
+0x00401072      add     edi, dword [rax + rcx*2]
+0x00401075      movzx   eax, byte [rsp]
+0x00401079      movzx   rdi, byte [rsp + 1]
+0x0040107f      movzx   rdx, byte [rsp + 2]
+0x00401085      xor     bl, bl
+0x00401087      inc     bl
+0x00401089      call    rbx
+0x0040108b      movzx   rax, byte [rsp + 3]
+0x00401091      xor     edi, edi
+0x00401093      jmp     rbx
+0x00401095      movabs  r14, 0x840b04b60f41c931
+0x0040109f      sal     byte [rbx - 0x78], 0xc4
+0x004010a4      shr     al, 4
+0x004010a7      and     ah, 0xf    ; 15
+0x004010aa      or      ax, 0x3030
+0x004010ae      cmp     al, 0x39   ; 57
+0x004010b0      jle     0x4010b4
+0x004010b2      add     al, 7
+0x004010b4      cmp     ah, 0x39   ; 57
+0x004010b7      jle     0x4010bc
+0x004010b9      add     ah, 7
+0x004010bc      mov     word [r12 + rcx*2], ax
+0x004010c1      inc     ecx
+0x004010c3      jmp     0x401099
+0x004010c5      mov     byte [r12 + rcx*2], 0
+0x004010ca      nop
+0x004010cb      mov     bl, 0x4e   ; 'N' ; 78
+0x004010cd      call    rbx
+0x004010cf      push    rax
+0x004010d0      pop     r11
+0x004010d2      xchg    r11, r12
+0x004010d5      cmp     cl, 0x25   ; 37
+0x004010d8      jne     0x4010e8
+0x004010da      call    rbx
+0x004010dc      shl     r12, 1
+0x004010df      cmp     r12, rax
+0x004010e2      jne     0x4010e8
+0x004010e4      mov     bl, 0x68   ; 'h' ; 104
+0x004010e6      call    rbx
+0x004010e8      add     bh, bh
