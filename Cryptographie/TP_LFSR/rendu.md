@@ -15,3 +15,22 @@ On a donc un LFSR de taille 8.
 
 **INSERER IMAGE ICIIIIII**
 
+Q8 : meme procedure mais avec un left shift et en faisant miroir sur la clé
+
+
+Q10 :On aura des cycles remplis de 0 et de longueur identique a celle du vectuer tout a 0. La période minimale d un lFSR est sa longueur
+
+Q11: 2^n valeurs prenables pour un registre de taille n 
+
+sa période maximale est donc 2^n 
+
+2⁶⁴  = 18446744073709551616
+
+
+Q12: Le resultat du XOR sera tjrs egal au bit de sortie , donc on a une periodicité de 32. 
+
+
+KPA CCA CPA
+https://www.reddit.com/r/cryptography/comments/14pydtr/struggling_with_indcpacca_game_in_symmetric/?tl=fr
+
+
