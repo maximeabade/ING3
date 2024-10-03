@@ -149,3 +149,34 @@ def find_weak_keys():
     
     return weak_keys
 ```
+
+### Question 6 :
+Soit m_1  = 0X0000000000000000 et m_2 = 0X0000000000000001. On a donc deux messages m_1 et m_2 de 64 bits chacun, avec un seul bit de différence. 
+Soit k = 0X1234567890ABCDEF une clé secrète de 64 bits.
+
+#### Application chiffrement DES en ECB sur m1 et m2 avec la clé k :
+
+1. **Chiffrement de m_1 avec k** :
+    - Message clair `m_1` : `0X0000000000000000`
+    - Clé secrète `k` : `0X1234567890ABCDEF`
+    - Résultat chiffré `c_1` : A502016BD4B777CC
+
+2. **Chiffrement de m_2 avec k** :
+    - Message clair `m_2` : `0X0000000000000001`
+    - Clé secrète `k` : `0X1234567890ABCDEF`
+    - Résultat chiffré `c_2` : 2E9C97C23FF6152E
+
+### Résultat attendu et explication :
+
+- Le chiffrement DES en mode ECB avec deux messages qui ne diffèrent que par un seul bit devrait produire des résultats chiffrés totalement différents.
+- **Analyse de la propriété d'avalanche** :
+    - DES est conçu pour que des modifications légères dans le message (comme un seul bit de différence) entraînent des changements significatifs dans le texte chiffré.
+    - Cette propriété garantit que même des messages très similaires produisent des résultats chiffrés très différents, ce qui renforce la sécurité du chiffrement.
+
+### Conclusion :
+
+- Le chiffrement de `m_1` et `m_2` avec la même clé `k` en utilisant DES en mode ECB démontre la propriété d'avalanche de DES.
+- Cette propriété est essentielle pour assurer que des messages similaires ne révèlent pas de motifs ou de relations évidentes dans leurs versions chiffrées, augmentant ainsi la robustesse de l'algorithme contre les attaques.
+
+
+
