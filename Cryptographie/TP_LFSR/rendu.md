@@ -299,3 +299,23 @@ Message déchiffré 2: A808F88DBDDA24CD
 
 On peut voir qu'à chacune des itérations en décalant le bit différent, on obtient des messages déchiffrés très différents les uns des autres, mais aussi du deuxième message déchiffré. Cela démontre la propriété d'avalanche de DES, où de petites modifications dans le message clair entraînent des changements significatifs dans le texte chiffré et déchiffré.
 
+
+
+### Question 8 :
+Voici un résumé des principales faiblesses du chiffrement DES (Data Encryption Standard) qui ont été mises en lumière depuis le début de l'exercice :
+
+- 1. Faible taille de la clé (56 bits) :
+La clé de DES est constituée de 64 bits, mais seuls 56 bits sont réellement utilisés pour le chiffrement (les 8 bits restants sont utilisés pour la parité).
+Conséquence : Avec 56 bits, il est possible de lancer une attaque par force brute pour tester toutes les combinaisons possibles de clés. Aujourd'hui, avec la puissance de calcul moderne, une attaque par force brute est réalisable en un temps relativement court, rendant DES vulnérable.
+- 2. Clés faibles :
+Certaines clés dans DES sont qualifiées de clés faibles. Ce sont des clés pour lesquelles toutes les sous-clés générées lors des 16 tours du chiffrement sont identiques.
+Conséquence : Si une clé faible est utilisée, le chiffrement devient moins sécurisé, car il se comporte de manière prévisible et peut être plus facilement cassé. Il existe 4 clés faibles connues dans DES.
+- 3. Clés semi-faibles :
+Il existe également des clés dites semi-faibles. Ce sont des paires de clés pour lesquelles le chiffrement avec une clé et le déchiffrement avec l'autre clé produit un résultat prévisible (c'est-à-dire le texte clair original).
+Conséquence : Bien que moins problématique que les clés faibles, les clés semi-faibles réduisent également la sécurité en introduisant une certaine symétrie dans le chiffrement, ce qui peut être exploité dans certaines attaques.
+- 4. Problèmes avec le mode ECB (Electronic Codebook) :
+Lorsque DES est utilisé en mode ECB, chaque bloc de 64 bits est chiffré indépendamment. Cela signifie que pour des blocs de texte clair identiques, le même cryptogramme est produit.
+Conséquence : Cette propriété rend le mode ECB vulnérable aux attaques basées sur l'analyse de motifs, notamment lorsqu'il est utilisé pour chiffrer des images ou des messages contenant des motifs répétitifs. Les motifs dans le texte chiffré peuvent révéler des informations sur le texte clair sous-jacent.
+- 5. Clés complémentaires (k et k') :
+Si l'on inverse tous les bits d'une clé k pour obtenir une nouvelle clé k', et que l'on applique le chiffrement DES avec k sur un message m, et avec k' sur l'inverse du message m, le résultat est souvent prévisible.
+Conséquence : Cela démontre une certaine régularité dans l'algorithme DES qui peut être exploitée pour des attaques, réduisant la sécurité du chiffrement.
