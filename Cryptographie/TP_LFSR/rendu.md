@@ -39,6 +39,30 @@ https://www.reddit.com/r/cryptography/comments/14pydtr/struggling_with_indcpacca
 
 ## Exo 2 : Chiffrement par bloc : DES, AES
 
+### Question 1 :
+```python3
+import random
+
+def gen_key_64bits() -> bytes:
+    """
+    Génére une clé de 64 bits aléaoire et uniforme
+    return: 8 bytes aléatoires"
+    """
+    res = 0
+    for _ in range(64):
+        res = (res << 1) | round(random.uniform(0, 1)) & 0x1
+    return res.to_bytes(8)
+
+def main() -> None:
+    print("Génération de 8 clés de 64 bits tirées aléatoirements et uniforméments:")
+    for i in range(8):
+        print("Clé " + str(i) + ": " + str(gen_key_64bits()))
+
+
+if __name__ == "__main__":
+    main()
+```
+
 ### Question 2 : 
 Soit m = 0x0123456789ABCDEF, k = 0x133457799BBCDFF1 et c = 0x0123456789ABCDEF. On a donc un message m, une clé k et un chiffré c. 
 
