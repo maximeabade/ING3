@@ -13,24 +13,69 @@ On a donc un LFSR de taille 8.
 
 0x5A = 01011010 en binaire
 
-**INSERER IMAGE ICIIIIII**
+**INSERER IMAGE ICIIIIII tableau des registres**
 
-Q8 : meme procedure mais avec un left shift et en faisant miroir sur la clé
+### 8:
+On effectue la même procedure que pour le chiffrement mais avec un left shift et en faisant miroir sur la clé (en gros, on fait la même chose mais à l'envers)
 
 
-Q10 :On aura des cycles remplis de 0 et de longueur identique a celle du vectuer tout a 0. La période minimale d un lFSR est sa longueur
+### Q10:
+On aura des cycles remplis de 0 et de longueur identique a celle du vecteur tout à 0. La période minimale d un LFSR est sa longueur
 
-Q11: 2^n valeurs prenables pour un registre de taille n 
+### Q11:
+2^n valeurs prenables pour un registre de taille n 
 
 sa période maximale est donc 2^n 
 
 2⁶⁴  = 18446744073709551616
 
 
-Q12: Le resultat du XOR sera tjrs egal au bit de sortie , donc on a une periodicité de 32. 
+### Q12:
+Le resultat du XOR sera tjrs egal au bit de sortie , donc on a une periodicité de 32. 
 
 
 KPA CCA CPA
 https://www.reddit.com/r/cryptography/comments/14pydtr/struggling_with_indcpacca_game_in_symmetric/?tl=fr
 
+## Exo 2 : Chiffrement par bloc : DES, AES
+
+### Question 2 : 
+Soit m = 0x0123456789ABCDEF, k = 0x133457799BBCDFF1 et c = 0x0123456789ABCDEF. On a donc un message m, une clé k et un chiffré c. 
+
+   **Choisir une clé secrète `k` et un message clair `m` de 64 bits chacun** :
+   - Par exemple :
+     - Message clair `m` : `0x0123456789ABCDEF` (64 bits)
+     - Clé secrète `k` : `0x133457799BBCDFF1` (64 bits)
+
+   **Calculer une nouvelle clé `k′`** :
+   - Appliquer un XOR entre `k` et la constante `0x0101010101010101` :
+     - `k′ = k ⊕ 0x0101010101010101`
+     - Si `k = 0x133457799BBCDFF1`, alors :
+       - `k′ = 0x133457799BBCDFF1 ⊕ 0x0101010101010101 = 0x123556788ABBDEE0`
+
+   **Chiffrement et déchiffrement** :
+   - Chiffrer `m` avec `k` en utilisant DES en mode ECB.
+   - Chiffrer `m` avec `k′` en utilisant DES en mode ECB.
+   - Comparer les résultats des deux chiffrement.
+
+### Résultat attendu et explication :
+
+- Le chiffrement DES en mode ECB avec deux clés différentes devrait normalement produire des résultats différents pour un même message.
+- **Analyse du XOR appliqué sur les clés** :
+   - En modifiant légèrement la clé (`k ⊕ 0x0101010101010101`), vous ne changez qu'un bit à chaque octet de la clé.
+   - **DES n'est pas linéaire**, ce qui signifie que des modifications légères sur la clé ou le message ne se traduisent pas forcément par des modifications légères dans le texte chiffré. Ainsi, le résultat du chiffrement avec `k′` sera probablement totalement différent du résultat du chiffrement avec `k` (propriété de diffusion).
+- Le chiffrement avec la clé modifiée (`k′`) produira un résultat chiffré complètement différent de celui obtenu avec la clé originale (`k`), même si le changement de clé est minime (seulement quelques bits changés). Cela est dû à la nature non linéaire de l'algorithme DES, où de petits changements dans la clé entraînent des changements significatifs dans le résultat chiffré (propriété d'avalanche).
+
+### Question 3 :
+
+### Question 4 :
+`m = 0x0123456789ABCDEF` (64 bits) en **hexadécimal** est équivalent à `0000000100100011010001010110011110001001101010111100110111101111` en **binaire**.
+
+Ainsi `m_bar = m ⊕ 0b1111111111111111111111111111111111111111111111111111111111111111 `
+Autrement dit, on inverse tous les bits de m et on a `m_bar` en binaire.
+Soit `m_bar = 1111111001011100101110101001100001110110010101000011001000000000` en binaire.
+
+k = 0x133457799BBCDFF1 (64 bits) en **hexadécimal** est équivalent à `0001001100110100010101110111100110011011101011111101111111100001` en **binaire**.
+De la même manière on déduit `k_bar` en inversant tous les bits de k.
+Soit `k_bar = 1110110011001011101010001000011001100100010100000010000000011110` en binaire.
 
