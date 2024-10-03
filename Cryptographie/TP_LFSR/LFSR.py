@@ -1,33 +1,81 @@
-def LFSR(n, reg, retro):
-    # Masque pour n bits (pour s'assurer que seuls les n bits de poids faible sont pris en compte)
-    mask = (1 << n) - 1
-    
-    # Calcul du bit de sortie (le bit de poids le plus faible)
-    output_bit = reg & 1
-    
-    # Calcul du bit de rétroaction en appliquant le polynôme de rétroaction 'retro'
-    feedback_bit = reg & retro
-    feedback_bit ^= feedback_bit >> 32
-    feedback_bit ^= feedback_bit >> 16
-    feedback_bit ^= feedback_bit >> 8
-    feedback_bit ^= feedback_bit >> 4
-    feedback_bit ^= feedback_bit >> 2
-    feedback_bit ^= feedback_bit >> 1
-    feedback_bit &= 1  # Seuls le bit de poids le plus faible est conservé
-    
-    # Décalage du registre vers la droite et ajout du bit de rétroaction au bit de poids fort
-    reg = (reg >> 1) | (feedback_bit << (n - 1))
-    
-    # Masque pour limiter à n bits
-    reg &= mask
-    
-    return output_bit, reg
+import sys
 
-# Exemple d'utilisation
-n = 16
-reg = 0x5A
-retro = 0b10110011  # Exemple de polynôme de rétroaction sur les 8 bits
+def lfsr(n: int, reg: int, retro: int):
+    if (n > 64):
+        return None
+    
+    new_bit = bin(reg & retro).count('1') % 2
+    res = reg & 0x1
+    reg = (reg >> 1) | (new_bit << (n - 1))
 
-for i in range(16):
-    output_bit, reg = LFSR(n, reg, retro)
-    print(f"Etape {i}: Registre: {bin(reg)}, Bit de sortie: {output_bit}")
+    return (res, reg)
+
+def gen_key(size_key: int, n: int, reg: int, retro: int) -> int:
+    key = 0
+    for i in range(size_key):
+        state = lfsr(n, reg, retro)
+        reg = state[1]
+        key = key << 1 | state[0]
+
+    return key
+
+def encryptLFSR(input_string: str, n: int, reg: int, retro: int) -> bytes:
+    key = gen_key(len(input_string) * 8, n, reg, retro)
+
+    # Convertir la chaîne en bytes
+    byte_string = input_string.encode('utf-8')
+
+    # Initialiser une liste pour stocker les résultats
+    result = []
+    
+    # Effectuer le XOR pour chaque octet
+    for byte in byte_string:
+        number = key & 0xFF
+        key = key >> 8
+        xored_byte = byte ^ number
+        #print("Number: " + bin(number) + " | byte: " + bin(byte) + " | xroed: " + bin(xored_byte))
+        result.append(xored_byte)
+    
+    # Convertir le résultat en bytes puis en chaîne
+    #print(bytes(result))
+    return bytes(result)
+
+def decryptLFSR(input_string: bytes, n: int, reg: int, retro: int) -> str:
+    key = gen_key(len(input_string) * 8, n, reg, retro)
+
+    # Initialiser une liste pour stocker les résultats
+    result = []
+    
+    # Effectuer le XOR pour chaque octet
+    for byte in input_string:
+        number = key & 0xFF
+        key = key >> 8
+        xored_byte = byte ^ number
+        #print("Number: " + bin(number) + " | byte: " + bin(byte) + " | xroed: " + bin(xored_byte))
+        result.append(xored_byte)
+    
+    # Convertir le résultat en bytes puis en chaîne
+    return bytes(result).decode('utf-8', errors='replace')
+
+def main() -> None:
+    # Valeur initial
+    n = 8
+    reg = 0x5A
+    retro = 0b10110011
+
+    for i in range(16):
+        state = lfsr(n, reg, retro)
+        reg = state[1]
+
+    n = 8
+    reg = 0x5A
+    retro = 0b10110011
+
+    word = "hello world!"
+    print(encryptLFSR(word, n, reg, retro).decode('utf-8', errors='replace'))
+    print(decryptLFSR(encryptLFSR(word, n, reg, retro), n, reg, retro))
+    assert(decryptLFSR(encryptLFSR(word, n, reg, retro), n, reg, retro) == word)
+
+
+if __name__ == "__main__":
+    main()
