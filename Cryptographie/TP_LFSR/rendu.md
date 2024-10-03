@@ -319,3 +319,87 @@ Conséquence : Cette propriété rend le mode ECB vulnérable aux attaques basé
 - 5. Clés complémentaires (k et k') :
 Si l'on inverse tous les bits d'une clé k pour obtenir une nouvelle clé k', et que l'on applique le chiffrement DES avec k sur un message m, et avec k' sur l'inverse du message m, le résultat est souvent prévisible.
 Conséquence : Cela démontre une certaine régularité dans l'algorithme DES qui peut être exploitée pour des attaques, réduisant la sécurité du chiffrement.
+
+
+## DOUBLE DES
+
+### Question 9:
+Implémentation de l'algorithme de chiffrement et déchiffrement Double DES en utilisant la bibliothèque `Crypto.Cipher` de Python :
+```python3
+```
+
+### Question 10 et 11:
+Voir photo de la démonstration
+
+### Question 12:
+
+#### 1. **Nombre de collisions pour un seul message :**
+
+Comme expliqué dans la question précédente, pour un seul couple de messages \((m1, c1)\), le nombre moyen de paires de clés \((k1, k2)\) telles que \( Enck1(m1) = Deck2(c1) \) est de \( 2^{48} \), en raison du paradoxe des anniversaires et de la taille de l'espace des résultats (64 bits).
+
+#### 2. **Nombre de collisions pour deux messages indépendants :**
+
+Lorsque nous cherchons une paire de clés \((k1, k2)\) qui satisfait **simultanément** les conditions pour deux messages distincts \((m1, c1)\) et \((m2, c2)\), il y a plusieurs considérations importantes :
+
+- Pour que \( k1 \) et \( k2 \) satisfassent les deux égalités \( Enck1(m1) = Deck2(c1) \) et \( Enck1(m2) = Deck2(c2) \), il faut que la même paire de clés produise les bonnes collisions pour **deux couples de messages distincts**.
+- Puisque \( Enck1(m1) \) et \( Deck2(c1) \) sont définis sur un espace de 64 bits, tout comme \( Enck1(m2) \) et \( Deck2(c2) \), les chances qu'une paire de clés \((k1, k2)\) satisfasse ces deux conditions simultanément sont plus faibles.
+
+#### 3. **Probabilité pour deux messages :**
+
+- Le fait d'avoir deux conditions à satisfaire (une pour chaque couple de messages) réduit de manière exponentielle le nombre de paires de clés qui peuvent fonctionner.
+- Pour le premier couple \((m1, c1)\), nous savons qu'il existe en moyenne \( 2^{48} \) paires de clés qui pourraient satisfaire la condition \( Enck1(m1) = Deck2(c1) \).
+- Cependant, pour satisfaire aussi la condition \( Enck1(m2) = Deck2(c2) \), on peut considérer que les clés doivent correspondre pour un deuxième ensemble de données (qui est indépendant du premier).
+
+- Puisque chaque nouvelle condition impose une restriction supplémentaire sur un espace de 64 bits, on doit diviser les \( 2^{48} \) possibilités du premier couple par \( 2^{64} \) (la taille de l'espace pour le deuxième couple de messages).
+
+#### 4. **Calcul final :**
+
+Le nombre moyen de paires de clés \((k1, k2)\) qui satisfont les deux égalités pour deux messages distincts est donc :
+
+\[
+\frac{2^{48}}{2^{64}} = 2^{-16}.
+\]
+
+Cependant, comme le nombre de clés est forcément un entier, le **nombre moyen** est arrondi à 1, car en moyenne, on peut s'attendre à ce qu'une seule paire de clés satisfasse ces deux conditions simultanément dans l'ensemble de l'espace des clés.
+
+Ainsi, le nombre moyen de paires de clés \((k1, k2)\) telles que \( Enck1(m1) = Deck2(c1) \) **et** \( Enck1(m2) = Deck2(c2) \) est donc égal à 1, car la probabilité de trouver une collision pour deux couples de messages distincts dans un espace de 64 bits réduit exponentiellement à environ 1.
+
+### Question 13:
+Après des recherches sur StackOverflow, un attaque fréquente est ```meet-in-the-middle```.
+
+Cette attaque tire parti du fait que 2-DES utilise deux clés pour chiffrer un message, mais l'attaque permet de réduire la complexité du temps d'exécution à celle d'un simple chiffrement DES, tout en augmentant légèrement les besoins en mémoire. Voici les détails de cette attaque.
+
+#### Principe de l'attaque "meet-in-the-middle"
+
+L'attaque "meet-in-the-middle" repose sur le fait que 2-DES consiste à appliquer successivement deux opérations de chiffrement avec deux clés différentes \( k1 \) et \( k2 \). Autrement dit, pour un message \( m \) et un message chiffré \( c \), nous avons :
+
+\[
+c = Enck2(Enck1(m)).
+\]
+
+L'idée de l'attaque est d'exploiter le fait que l'on peut calculer partiellement le chiffrement à partir de \( m \) (en utilisant \( k1 \)) et partiellement le déchiffrement à partir de \( c \) (en utilisant \( k2 \)) pour essayer de retrouver \( k1 \) et \( k2 \) en testant des clés candidates et en cherchant une correspondance dans une étape intermédiaire.
+
+#### Étapes de l'attaque
+
+1. **Choix d'un couple \( m \) et \( c \)** :
+   - On commence par choisir un message en clair \( m \) et son message chiffré correspondant \( c \). Idéalement, on utilise plusieurs couples de messages pour vérifier les résultats.
+
+2. **Phase 1 : Chiffrement partiel avec \( k1 \)** :
+   - Pour chaque clé candidate \( k1 \), on chiffre le message \( m \) et on stocke le résultat intermédiaire \( x1 = Enck1(m) \) dans une table. Cette table contient toutes les valeurs possibles pour \( x1 \) en fonction des \( 2^{56} \) clés \( k1 \).
+   - Ainsi, la table associée contient \( 2^{56} \) entrées, où chaque entrée associe une clé \( k1 \) à la valeur \( x1 \).
+
+3. **Phase 2 : Déchiffrement partiel avec \( k2 \)** :
+   - Simultanément, pour chaque clé candidate \( k2 \), on commence à déchiffrer \( c \) en calculant \( x2 = Deck2(c) \).
+   - À chaque étape, on vérifie si \( x2 \) correspond à une des valeurs \( x1 \) stockées dans la table de la phase 1.
+
+4. **Rencontre ("meet-in-the-middle")** :
+   - Lorsque \( x1 = x2 \), on a une correspondance entre une clé candidate \( k1 \) (trouvée dans la première phase) et une clé candidate \( k2 \) (de la deuxième phase) telles que \( Enck1(m) = Deck2(c) \).
+   - Cette correspondance ne garantit pas encore que les clés sont correctes, mais elle donne un bon point de départ pour tester sur d'autres couples \( (m', c') \).
+
+5. **Vérification avec d'autres messages** :
+   - Pour s'assurer que les clés trouvées sont correctes, on vérifie ces paires \( (k1, k2) \) avec d'autres couples \( (m', c') \). Si elles satisfont également les équations \( Enck1(m') = Deck2(c') \), alors on a trouvé les clés \( k1 \) et \( k2 \).
+
+#### Complexité de l'attaque
+
+- **Complexité en temps** : Au lieu de tester toutes les \( 2^{112} \) combinaisons possibles de \( k1 \) et \( k2 \), l'attaque "meet-in-the-middle" réduit la complexité en temps à environ \( 2^{56} + 2^{56} = 2^{57} \), ce qui est beaucoup plus faisable.
+- **Complexité en mémoire** : L'attaque nécessite de stocker \( 2^{56} \) résultats intermédiaires (les valeurs \( Enck1(m) \)) dans une table, ce qui représente un besoin de mémoire important, mais toujours gérable avec les capacités modernes.
