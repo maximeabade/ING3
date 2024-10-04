@@ -153,8 +153,8 @@ model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accurac
 
 # Entraînement du modèle avec callbacks pour ajuster automatiquement le learning rate
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
-# je mets 9 comme epochs car c est ce que j ai observé pendant la supervision, taux acceptable d'accuracy
-model.fit(x_train_pad, y_train, epochs=9, batch_size=32, validation_data=(x_val_pad, y_val), callbacks=[early_stopping], verbose=1)
+# je mets 13 comme epochs car c est ce que j ai observé pendant la supervision, taux acceptable d'accuracy
+model.fit(x_train_pad, y_train, epochs=13, batch_size=32, validation_data=(x_val_pad, y_val), callbacks=[early_stopping], verbose=1)
 # Affichage de la structure du modèle
 model.summary()
 
