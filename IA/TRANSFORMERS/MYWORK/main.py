@@ -18,6 +18,11 @@ from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Bidirectional
 
+from transformers import BertTokenizer, TFBertForSequenceClassification
+from transformers import glue_convert_examples_to_features as convert_examples_to_features
+from sklearn.preprocessing import LabelEncoder
+
+
 # Téléchargement des ressources NLTK
 try:
     nltk.download('stopwords')
@@ -161,3 +166,59 @@ print("Test Accuracy:", score[1])
 # sauvegarde du modele
 model.save('lstm_model.h5')
 
+## Mise en place des transformers
+
+
+# Charger le tokenizer BERT
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+# Encodage des labels
+le = LabelEncoder()
+y_train_encoded = le.fit_transform(y_train)
+y_val_encoded = le.transform(y_val)
+y_test_encoded = le.transform(y_test)
+
+# Tokenization avec padding
+def tokenize(sentences, tokenizer, max_len=300):
+    return tokenizer.batch_encode_plus(
+        sentences,
+        max_length=max_len,
+        padding='max_length',
+        truncation=True,
+        return_tensors='tf'
+    )
+
+train_encodings = tokenize(x_train.tolist(), tokenizer)
+val_encodings = tokenize(x_val.tolist(), tokenizer)
+test_encodings = tokenize(x_test.tolist(), tokenizer)
+
+# Charger le modèle BERT pré-entraîné pour la classification binaire
+bert_model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=1)
+
+# Compilation du modèle
+bert_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5), 
+                   loss='binary_crossentropy', 
+                   metrics=['accuracy'])
+
+# Entraînement
+bert_model.fit(
+    train_encodings['input_ids'], y_train_encoded, 
+    validation_data=(val_encodings['input_ids'], y_val_encoded), 
+    epochs=3, batch_size=32, verbose=1
+)
+
+# Évaluation
+score = bert_model.evaluate(test_encodings['input_ids'], y_test_encoded, verbose=1)
+print("Test Accuracy:", score[1])
+
+# Sauvegarde du modèle
+bert_model.save_pretrained('bert_model/')
+
+
+# Résultats du LSTM
+lstm_score = model.evaluate(x_test_pad, y_test, verbose=1)
+print(f"LSTM Test Accuracy: {lstm_score[1]}")
+
+# Résultats du BERT
+bert_score = bert_model.evaluate(test_encodings['input_ids'], y_test_encoded, verbose=1)
+print(f"BERT Test Accuracy: {bert_score[1]}")
