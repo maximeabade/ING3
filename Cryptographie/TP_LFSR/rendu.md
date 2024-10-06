@@ -703,3 +703,80 @@ On peut voir qu'à chaque itération en décalant le bit différent, on obtient 
 En conclusion, AES en mode ECB corrige les principales faiblesses de DES, offrant une sécurité renforcée contre les attaques par force brute et autres vulnérabilités connues de DES.
 
 
+### Question 15: Implémenter une fonction de chiffrement qui prend en entrée :
+    **– key : la clé de chiffrement ;
+    **– image : un fichier au format bitmap (.bmp) ;**
+    **– algo : “DES” ou “AES” ;**
+    **– mode : “MODE_ECB”, “MODE_CBC” ou “MODE_CTR” ;**
+    **– iv : un éventuel vecteur d’initialisation (nécessaire selon le mode de chiffrement considéré).**
+### et qui retourne un fichier au format bitmap qui représente le contenu chiffré de l'image. Attention, il est demandé de ne chiffrer que le contenu de l’image ; on ne modifiera donc pas l’entête du fichier bitmap.
+```python
+from Crypto.Cipher import DES, AES
+from Crypto.Util.Padding import pad, unpad
+import os
+
+def encrypt_image(key: bytes, image: str, algo: str, mode: str, iv: bytes = None) -> None:
+    # Read the image file
+    with open(image, 'rb') as f:
+        header = f.read(54)  # BMP header is 54 bytes
+        body = f.read()
+
+    # Select the cipher
+    if algo == "DES":
+        if mode == "MODE_ECB":
+            cipher = DES.new(key, DES.MODE_ECB)
+        elif mode == "MODE_CBC":
+            cipher = DES.new(key, DES.MODE_CBC, iv)
+        elif mode == "MODE_CTR":
+            cipher = DES.new(key, DES.MODE_CTR, nonce=iv)
+        else:
+            raise ValueError("Unsupported mode for DES")
+    elif algo == "AES":
+        if mode == "MODE_ECB":
+            cipher = AES.new(key, AES.MODE_ECB)
+        elif mode == "MODE_CBC":
+            cipher = AES.new(key, AES.MODE_CBC, iv)
+        elif mode == "MODE_CTR":
+            cipher = AES.new(key, AES.MODE_CTR, nonce=iv)
+        else:
+            raise ValueError("Unsupported mode for AES")
+    else:
+        raise ValueError("Unsupported algorithm")
+
+    # Encrypt the body of the image
+    if mode in ["MODE_ECB", "MODE_CBC"]:
+        encrypted_body = cipher.encrypt(pad(body, cipher.block_size))
+    else:  # MODE_CTR
+        encrypted_body = cipher.encrypt(body)
+
+    # Write the encrypted image to a new file
+    encrypted_image_path = os.path.splitext(image)[0] + "_encrypted.bmp"
+    with open(encrypted_image_path, 'wb') as f:
+        f.write(header + encrypted_body)
+
+    print(f"Encrypted image saved to {encrypted_image_path}")
+
+# Example usage
+key = b'12345678'  # DES key must be 8 bytes
+iv = b'12345678'   # IV must be 8 bytes for DES CBC mode
+encrypt_image(key, 'example.bmp', 'DES', 'MODE_CBC', iv)
+```
+
+### Question 16: Comparer les différents modes de chiffrement de DES et AES sur le fichier image.bmp (ne pas chiffrer l’entête qui est de 74 octets pour ce fichier). Quel mode vous semble le plus pertinent? Justifier
+1. Sécurité
+DES:
+Clé de 56 bits, considéré comme obsolète.
+Mode ECB révèle des motifs, donc peu sécurisé.
+AES:
+Clé de 128, 192 ou 256 bits, très sécurisé.
+CBC et CTR offrent une meilleure protection.
+2. Performances
+DES: Plus lent pour les grandes données, vulnérable aux attaques par force brute.
+AES: Optimisé pour le matériel moderne, plus rapide pour le traitement d'images.
+3. Modes de fonctionnement
+ECB: Ne pas utiliser pour les images, expose des motifs.
+CBC: Sécurisé, nécessite un vecteur d'initialisation (IV).
+CTR: Permet un traitement parallèle, plus rapide tout en étant sécurisé.
+
+#### Conclusion
+AES est supérieur à DES en sécurité et performances. Pour le chiffrement d'images, privilégiez AES en mode CTR pour la vitesse, ou AES en mode CBC pour une sécurité renforcée. Évitez DES pour les applications sensibles.
