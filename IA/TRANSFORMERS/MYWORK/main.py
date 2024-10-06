@@ -12,16 +12,14 @@ import os
 from tensorflow.keras.preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
+from tensorflow.keras.optimizers import Adam 
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout, Bidirectional
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Bidirectional
-
 from transformers import BertTokenizer, TFBertForSequenceClassification
-from transformers import glue_convert_examples_to_features as convert_examples_to_features
 from sklearn.preprocessing import LabelEncoder
-
+from transformers import AdamW, TFBertForSequenceClassification
+from transformers import TFBertForSequenceClassification, BertTokenizer
 
 # Téléchargement des ressources NLTK
 try:
@@ -89,21 +87,16 @@ def clean_tweet(text, flg_stemm=False, flg_lemm=True, lst_stopwords=None):
     return text
 
 # Application du nettoyage des tweets
-df['clean'] = df['Query'].apply(lambda row: clean_tweet(row, flg_stemm=False, flg_lemm=True, lst_stopwords=stop_words))
+df['clean'] = df['Query'].apply(
+    lambda row: clean_tweet(row, flg_stemm=False, flg_lemm=True, lst_stopwords=stop_words)
+)
 
 # Initialisation du tokenizer
-tokenizer = Tokenizer(num_words=10000,
-                      filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
-                      lower=True,
-                      char_level=False)
+tokenizer = Tokenizer(num_words=10000, filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n', lower=True, char_level=False)
 
 # Séparation des données en ensembles d'entraînement, de validation et de test
 x_train, x_test, y_train, y_test = train_test_split(df['clean'], df['Label'], train_size=0.8, stratify=df['Label'], random_state=42)
 x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, train_size=0.8, stratify=y_train, random_state=42)
-
-print("========== Données d'entraînement ========== \n", x_train, "\n",
-      "========== Données de validation ========== \n", x_val, "\n",
-      "========== Données de test ========== \n", x_test)
 
 # Tokenization des textes
 tokenizer.fit_on_texts(x_train)
@@ -122,64 +115,41 @@ y_train = np.array(y_train)
 y_val = np.array(y_val)
 y_test = np.array(y_test)
 
-# Définition des paramètres du modèle
+# Modèle LSTM
 embedding_dim = 100
 num_classes = 1
-# si le lstm.h5 existe on le charge
+
+# Si le modèle LSTM existe, on le charge
 if os.path.exists('lstm_model.h5'):
     model = load_model('lstm_model.h5')
-    print("model loaded")
-    # Évaluation sur le jeu de test
-    score = model.evaluate(x_test_pad, y_test, verbose=1)
-    print("Test Accuracy:", score[1])
-    exit() 
+else:
+    # Création d'un modèle séquentiel LSTM
+    model = Sequential()
+    model.add(Embedding(input_dim=10000, output_dim=embedding_dim, input_length=maxlen))
+    model.add(Bidirectional(LSTM(128, return_sequences=True)))
+    model.add(Dropout(0.3))
+    model.add(Bidirectional(LSTM(128)))
+    model.add(Dropout(0.3))
+    model.add(Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dropout(0.3))
+    model.add(Dense(num_classes, activation='sigmoid'))
 
+# Compilation du modèle
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5), loss='binary_crossentropy', metrics=['accuracy'])
 
-
-# Modification du modèle séquentiel
-model = Sequential()
-model.add(Embedding(input_dim=10000, output_dim=embedding_dim, input_length=maxlen))
-model.add(Bidirectional(LSTM(128, return_sequences=True)))
-model.add(Dropout(0.3))  # Augmentation du dropout
-model.add(Bidirectional(LSTM(128)))
-model.add(Dropout(0.3))
-model.add(Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
-model.add(Dropout(0.3))
-model.add(Dense(num_classes, activation='sigmoid'))
-
-# Compilation du modèle avec un taux d'apprentissage réduit
-optimizer = tf.keras.optimizers.Adam(learning_rate=0.0001)
-model.compile(loss='binary_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-
-# Entraînement du modèle avec callbacks pour ajuster automatiquement le learning rate
+# Entraînement du modèle LSTM
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
-# je mets 13 comme epochs car c est ce que j ai observé pendant la supervision, taux acceptable d'accuracy
 model.fit(x_train_pad, y_train, epochs=13, batch_size=32, validation_data=(x_val_pad, y_val), callbacks=[early_stopping], verbose=1)
-# Affichage de la structure du modèle
-model.summary()
 
-# Entraînement du modèle
-history = model.fit(x_train_pad, y_train, epochs=10, batch_size=32, validation_data=(x_val_pad, y_val), verbose=1)
-
-# Évaluation sur le jeu de test
-score = model.evaluate(x_test_pad, y_test, verbose=1)
-print("Test Accuracy:", score[1])
-# sauvegarde du modele
+# Sauvegarde du modèle LSTM
 model.save('lstm_model.h5')
+print("Modèle LSTM sauvegardé.")
 
-## Mise en place des transformers
+# Évaluation du modèle LSTM sur le jeu de test
+lstm_score = model.evaluate(x_test_pad, y_test, verbose=1)
+print(f"LSTM Test Accuracy: {lstm_score[1]}")
 
-
-# Charger le tokenizer BERT
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-
-# Encodage des labels
-le = LabelEncoder()
-y_train_encoded = le.fit_transform(y_train)
-y_val_encoded = le.transform(y_val)
-y_test_encoded = le.transform(y_test)
-
-# Tokenization avec padding
+# Fonction de tokenization avec BERT
 def tokenize(sentences, tokenizer, max_len=300):
     return tokenizer.batch_encode_plus(
         sentences,
@@ -189,37 +159,54 @@ def tokenize(sentences, tokenizer, max_len=300):
         return_tensors='tf'
     )
 
-train_encodings = tokenize(x_train.tolist(), tokenizer)
-val_encodings = tokenize(x_val.tolist(), tokenizer)
-test_encodings = tokenize(x_test.tolist(), tokenizer)
+# Fonction de tokenization avec BERT
+def tokenize(sentences, tokenizer, max_len=300):
+    return tokenizer.batch_encode_plus(
+        sentences,
+        max_length=max_len,
+        padding='max_length',
+        truncation=True,
+        return_tensors='tf'
+    )
+
+# Initialisation du tokenizer BERT
+bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+# Tokenization des données
+train_encodings = tokenize(x_train.tolist(), bert_tokenizer)
+val_encodings = tokenize(x_val.tolist(), bert_tokenizer)
+test_encodings = tokenize(x_test.tolist(), bert_tokenizer)
+
+# Encodage des labels
+le = LabelEncoder()
+y_train_encoded = le.fit_transform(y_train)
+y_val_encoded = le.transform(y_val)
+y_test_encoded = le.transform(y_test)
 
 # Charger le modèle BERT pré-entraîné pour la classification binaire
-bert_model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=1)
+bert_model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=2)  # Change to 2 for binary classification
 
-# Compilation du modèle
-bert_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5), 
-                   loss='binary_crossentropy', 
-                   metrics=['accuracy'])
+# Compilation du modèle BERT avec l'optimiseur Adam et BinaryCrossentropy from_logits
+bert_model.compile(
+    optimizer=Adam(learning_rate=2e-5),  # Use TensorFlow's Adam optimizer
+    loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+    metrics=['accuracy']
+)
 
-# Entraînement
+# Entraînement du modèle BERT
 bert_model.fit(
     train_encodings['input_ids'], y_train_encoded, 
     validation_data=(val_encodings['input_ids'], y_val_encoded), 
     epochs=3, batch_size=32, verbose=1
 )
 
-# Évaluation
-score = bert_model.evaluate(test_encodings['input_ids'], y_test_encoded, verbose=1)
-print("Test Accuracy:", score[1])
+# Évaluation du modèle BERT sur le jeu de test
+bert_score = bert_model.evaluate(test_encodings['input_ids'], y_test_encoded, verbose=1)
+print(f"BERT Test Accuracy: {bert_score[1]}")
 
-# Sauvegarde du modèle
+# Sauvegarde du modèle BERT
 bert_model.save_pretrained('bert_model/')
 
-
-# Résultats du LSTM
-lstm_score = model.evaluate(x_test_pad, y_test, verbose=1)
+# Résultats finaux
 print(f"LSTM Test Accuracy: {lstm_score[1]}")
-
-# Résultats du BERT
-bert_score = bert_model.evaluate(test_encodings['input_ids'], y_test_encoded, verbose=1)
 print(f"BERT Test Accuracy: {bert_score[1]}")
