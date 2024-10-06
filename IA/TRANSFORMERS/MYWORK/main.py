@@ -186,17 +186,16 @@ y_test_encoded = le.transform(y_test)
 # Charger le modèle BERT pré-entraîné pour la classification binaire
 bert_model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=2)  # Change to 2 for binary classification
 
-# Compilation du modèle BERT avec l'optimiseur Adam et BinaryCrossentropy from_logits
 bert_model.compile(
-    optimizer=Adam(learning_rate=2e-5),  # Use TensorFlow's Adam optimizer
+    optimizer=AdamW(learning_rate=2e-5),  # Use AdamW optimizer
     loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
     metrics=['accuracy']
 )
 
 # Entraînement du modèle BERT
 bert_model.fit(
-    train_encodings['input_ids'], y_train_encoded, 
-    validation_data=(val_encodings['input_ids'], y_val_encoded), 
+    train_encodings['input_ids'], y_train_encoded,
+    validation_data=(val_encodings['input_ids'], y_val_encoded),
     epochs=3, batch_size=32, verbose=1
 )
 
