@@ -107,3 +107,8 @@
 - Implémentation : vérifier les artefacts indiquant l'exécution dans une machine virtuelle ou une sandbox
 - Difficulté d'analyse : peut refuser de s'exécuter ou altérer le comportement dans un VM
 - Exemple : Vérifier les artefacts de VirtualBox, VMware, QEMU, valeurs de registre, cache de navigateur, etc.
+
+## Check COmmon Debuggers in Parent Proc
+- Implémentation : vérifier les processus parents pour les débogueurs courants
+- Difficulté d'analyse : Peut empêcher le débogage en détectant les débogueurs
+- Exemple : Vérifier les processus parents pour gdb, ollydbg, x64dbg, windbg, etc.
