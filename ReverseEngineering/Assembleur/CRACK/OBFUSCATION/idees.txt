@@ -1,0 +1,3 @@
+cacher les caracteres a la rentree (comme sur sudo)
+changer le mapping du clavier
+faire tourner en boucle l ecran pour l empecher de lire quoi que ce soit

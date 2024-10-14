@@ -108,7 +108,7 @@
 - Difficulté d'analyse : peut refuser de s'exécuter ou altérer le comportement dans un VM
 - Exemple : Vérifier les artefacts de VirtualBox, VMware, QEMU, valeurs de registre, cache de navigateur, etc.
 
-## Check COmmon Debuggers in Parent Proc
+## Check Common Debuggers in Parent Proc
 - Implémentation : vérifier les processus parents pour les débogueurs courants
 - Difficulté d'analyse : Peut empêcher le débogage en détectant les débogueurs
 - Exemple : Vérifier les processus parents pour gdb, ollydbg, x64dbg, windbg, etc.
@@ -129,4 +129,15 @@
 
 
 # Mes idées
+
+Contrefacon du binaire donné aux autres == genre afficher "Ok" a la place de "OK \n" pour que les autres tombent dans le panneau, avec copie du binaire dans un fichier .nomdubinaire (au ls il sera caché) et creation d un binaire qui de toute maniere est tres court et qui affiche "Ok" peu importe l argument, et qui renvoie 0
+Faire un packer qui permet la contrefacon du binaire A L INTERIEUR
+
+Appliquer les techniques d obfuscation sur ce binaire créé
+
+Contrefacon de fonctions de la libc
+
+faire de l injection de code C qui le recupere en argument, le compile et prend sa version ASM, et l injecte dans le binaire
+
+
 
