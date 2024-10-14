@@ -91,7 +91,7 @@
   
 **Concretement les malfaiteurs craquent souvent certains logiciels en très peu de temps à cause de la présence de litérales en dur, correspondant comme par hasard à la durée de la version d'évaluation.**
 
-## APIU Obfusctation
+## APIU Obfuscation
 - Implémentation : renommer et créer des wrappers autour des appels API et appels système
 - Difficulté d'analyse : cache l'utilisation directe des API nécessitant une analyse plus profonde
 - Exemple : Wrapper des appels système en C
@@ -126,3 +126,9 @@
 - Difficulté d'analyse : peut détecter et réagir à la modification du code comme la présence de l'instruction INT3
 - Exemple : Vérifier les sommes de contrôle de segments de code en C
 
+
+
+# Mes idées
+
+Mettre qqchose dans le C qui fait que le programme ne se lance pas si l'OS n'est pas celui attendu, par exemple, si ils lancent ca dans Kali, ubuntu ou Arch, le programme ne se lance pas. 
+Si dans le repertoire avant il n y a pas un fichier qui s'appelle "p@$$w0rD" le programme ne se lance pas, ou si le fichier est vide, ou si le fichier contient un mot de passe incorrect.
