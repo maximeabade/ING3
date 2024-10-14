@@ -112,3 +112,17 @@
 - Implémentation : vérifier les processus parents pour les débogueurs courants
 - Difficulté d'analyse : Peut empêcher le débogage en détectant les débogueurs
 - Exemple : Vérifier les processus parents pour gdb, ollydbg, x64dbg, windbg, etc.
+
+## /proc/self/status (TracerPID Line)
+- Implémentation : vérifier la ligne TracerPid /proc/self/status pour le PID du débogueur
+- Difficulté d'analyse : Détecte la plupart des débogueurs attachés sous linux
+- Exemple : Vérifier le fichier /proc/self/status pour le PID du débogueur dans le C
+
+## PTRACE_TraceMe
+- Implémentation : vérifier si le processus est tracé par un débogueur et lancer un auto-débug pour empecher l utilisateur d en lancer un autre
+
+## Runtime Integrity Checks
+- Implémentation : vérifier l'intégrité du processus en vérifiant les valeurs de hachage, les signatures, les checksums
+- Difficulté d'analyse : peut détecter et réagir à la modification du code comme la présence de l'instruction INT3
+- Exemple : Vérifier les sommes de contrôle de segments de code en C
+
