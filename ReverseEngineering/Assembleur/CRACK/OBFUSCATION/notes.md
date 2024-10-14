@@ -1,4 +1,4 @@
-# Désassemblage
+# Anti-Désassemblage
 
 ## Dead Code Inclusion 
 - Implémentation : inclure du code qui n'est jamais exécuté
@@ -29,4 +29,27 @@
 - Implémentation : réaffectation des valeurs entre les registres pour des usages différents
 - Difficulté d'analyse : les valeurs des registres sont modifiées de manière inattendue, et difficile de suivre les valeurs des données
 - Exemple : rire en asm des transferts de registre apparemment non pertinents (xchg, mov, push/pop)
+
+
+# Anti-Décompilation
+## Forced Inlining
+- Implémentation : utiliser des optimisations de compilateur pour forcer l'intégration de certaines fonctions
+- Difficulté d'analyse : rend le flot de contrôle plus complexe et dissimule les limites de la fonction
+- Exemple : Utiliser ```__attribute__((always_inline))``` en C pour forcer l'inline
+  
+## FOcntions qui ne pop pas autant qu elles push
+- Implémentation : manipuler la pile pour déséquilibrer les opérations push pop
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de la manipulation de la pile
+- Exemple : push rax;   *manquant un pop correspondant*
+
+## Return Hijack (Stack Pivot)
+- Implémentation : modifier la valeur de retour pour sauter à une autre fonction
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de la modification de la valeur de retour, déroutant pour les décompilateurs car flux de controle non conventionnel
+- Exemple : ASM - xchg esp, eax : ret;
+**[https://blog.ret2.io/2017/11/16/dangers-of-the-decompiler/]**
+
+## Code Morphing
+- Implémentation : le code s'auto-modifie pendant l'exécution
+- Difficulté d'analyse : le code change pendant l'exécution rendant l'analyse statique non fiable
+- Exemple : Générer du code avec un polymorphisme simple en C
   
