@@ -130,5 +130,3 @@
 
 # Mes idées
 
-Mettre qqchose dans le C qui fait que le programme ne se lance pas si l'OS n'est pas celui attendu, par exemple, si ils lancent ca dans Kali, ubuntu ou Arch, le programme ne se lance pas. 
-Si dans le repertoire avant il n y a pas un fichier qui s'appelle "p@$$w0rD" le programme ne se lance pas, ou si le fichier est vide, ou si le fichier contient un mot de passe incorrect.
