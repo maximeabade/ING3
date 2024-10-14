@@ -47,6 +47,7 @@ extern "C" NTSTATUS NtOpenProcessSyscall(
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 void ReloadNtdll() {
     // Sur Linux, il n'y a pas de rechargement de bibliothèque comme sur Windows
