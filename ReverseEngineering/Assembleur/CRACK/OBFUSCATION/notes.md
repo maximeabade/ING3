@@ -10,3 +10,7 @@
 - Difficulté d'analyse : les instructions se chevauchant peuvent être difficiles à identifier
 - Exemple : `mov eax, 0x12345678` suivi de `mov ax, 0x9ABC` , les deux instructions se chevauchent
 
+## ABI Violations 
+- Implémentation : ne pas respecter les conventions d'appel standard
+- Difficulté d'analyse : les conventions d'appel standard sont utilisées pour appeler des fonctions, si elles ne sont pas respectées, cela peut compliquer l'analyse
+- Exemple: Modifier le registre de la base de la pile (EBP) ou le registre de la pile (ESP) sans les restaurer
