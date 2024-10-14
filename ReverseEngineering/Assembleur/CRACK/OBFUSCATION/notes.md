@@ -52,4 +52,58 @@
 - Implémentation : le code s'auto-modifie pendant l'exécution
 - Difficulté d'analyse : le code change pendant l'exécution rendant l'analyse statique non fiable
 - Exemple : Générer du code avec un polymorphisme simple en C
+
+
+## Garbage Code Insertion
+- Implémentation : insérer du code inutile ou redondant
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de l'insertion de code inutile
+- Exemple : insérer des instructions inutiles ou des instructions qui ne sont jamais exécutées, insérer des boucles no-op ou des instructions de saut inutiles
+
+## Control flow Obfuscation
+- Implémentation : altérer l'ordre des instructions, sauts indirects
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de l'altération du flux de contrôle
+- Exemple : Utiliser des sauts indirects, des trampolines et des pointeurs de fonction en C (penser à des goto)
   
+## Compilation Obfusquée
+- Implémentation : utiliser des options de compilation pour rendre le code difficile à décompiler
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de l'optimisation du compilateur
+- Exemple : Utiliser des options de compilation telles que -O3, -fomit-frame-pointer, -finline-functions, -finline-limit, -fmerge-all-constants, -fmerge-constants, -fmerge-all-constants, -fmerge-constants, -fno-inline, ```obfuscator-llvm```
+
+## Symbol Stripping
+- Implémentation : supprimer les symboles du binaire avec des outils comme strip
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de la suppression des symboles
+- Exemple : commande ```-strip --strip-all executable ```
+  
+## Symbol renaming/shuffling
+- Implémentation : renommer les symboles pour rendre la décompilation plus difficile avec des outils comme objcopy sur Linux
+- Difficulté d'analyse : rend la décompilation plus difficile en raison du renommage des symboles et sur l'action des fonctions
+- Exemple : ```objcopy --redefine-sym strcmp=printf old=new executable```
+  
+## Static Linking
+- Implémentation : lier statiquement les bibliothèques pour rendre la décompilation plus difficile
+- Difficulté d'analyse : rend la décompilation plus difficile en raison de la liaison statique
+- Exemple : ```gcc -static -o executable source.c```
+
+## Obfuscation des litérales
+- Implémentation : changer les valeurs constantes en calculs, appels de fonction ou en string XORées
+- Difficulté d'analyse : rend les valeurs difficiles à reconnaître et à interpréter
+- Exemple : Remplacer une valeur constante par un calcul redondant en C
+  
+**Concretement les malfaiteurs craquent souvent certains logiciels en très peu de temps à cause de la présence de litérales en dur, correspondant comme par hasard à la durée de la version d'évaluation.**
+
+## APIU Obfusctation
+- Implémentation : renommer et créer des wrappers autour des appels API et appels système
+- Difficulté d'analyse : cache l'utilisation directe des API nécessitant une analyse plus profonde
+- Exemple : Wrapper des appels système en C
+  
+# Anti-Debugging
+
+## Timing Analysis
+- Implémentation : mesurer le temps d'exécution pour détecter les outils de débogage
+- Difficulté d'analyse : rend la détection des outils de débogage plus difficile
+- Exemple : Mesurer le temps entre les points de contrôle en C
+
+## VM Sandbox Detection
+- Implémentation : vérifier les artefacts indiquant l'exécution dans une machine virtuelle ou une sandbox
+- Difficulté d'analyse : peut refuser de s'exécuter ou altérer le comportement dans un VM
+- Exemple : Vérifier les artefacts de VirtualBox, VMware, QEMU, valeurs de registre, cache de navigateur, etc.
