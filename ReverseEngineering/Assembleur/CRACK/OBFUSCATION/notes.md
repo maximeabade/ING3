@@ -14,3 +14,19 @@
 - Implémentation : ne pas respecter les conventions d'appel standard
 - Difficulté d'analyse : les conventions d'appel standard sont utilisées pour appeler des fonctions, si elles ne sont pas respectées, cela peut compliquer l'analyse
 - Exemple: Modifier le registre de la base de la pile (EBP) ou le registre de la pile (ESP) sans les restaurer
+
+## Code Chaining or Jumbling
+- Implémentation : réorganiser les instructions pour rendre le code difficile à suivre
+- Difficulté d'analyse : les instructions sont mélangées et difficiles à suivre en flux de contrôle
+- Exemple : Utiliser des sauts indirects, trampolines et pointeurs de fonction en C (penser à des goto)
+
+## Use of Opaque Predicates
+- Implémentation : utiliser des conditions dont le résultat est connu, mais pas évident pour l'analyseur, ou claculer des adresses au runtime.
+- Difficulté d'analyse : induit en erreur les outils d'analyse sur le flux de contrôle du programme
+- Exemple : Utiliser des conditions qui sont toujours vraies ou fausses, mais complexes à évaluer
+  
+## Register Reassignment
+- Implémentation : réaffectation des valeurs entre les registres pour des usages différents
+- Difficulté d'analyse : les valeurs des registres sont modifiées de manière inattendue, et difficile de suivre les valeurs des données
+- Exemple : rire en asm des transferts de registre apparemment non pertinents (xchg, mov, push/pop)
+  
