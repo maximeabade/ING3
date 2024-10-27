@@ -1,3 +1,3 @@
-cacher les caracteres a la rentree (comme sur sudo)
-changer le mapping du clavier
-faire tourner en boucle l ecran pour l empecher de lire quoi que ce soit
+le resultat negatif (-1980204406) , on prend la valeur absolue, on la divise par deux, on la convertie en string, et on compare 
+res avec les fonctions inverse pour remettre -1980204406 en clair
+
