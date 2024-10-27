@@ -1,3 +1,4 @@
 le resultat negatif (-1980204406) , on prend la valeur absolue, on la divise par deux, on la convertie en string, et on compare 
 res avec les fonctions inverse pour remettre -1980204406 en clair
 
+remaniement asm pour rendre le code illisible
